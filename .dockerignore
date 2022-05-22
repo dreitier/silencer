@@ -1,0 +1,6 @@
+.idea
+vendor
+.gitignore
+#config.yaml
+Dockerfile
+*.yaml

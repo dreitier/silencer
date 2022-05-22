@@ -1,0 +1,8 @@
+log_level: info             # log level
+port: 8000                  # listening port of the silencer application
+alertmanager_host: alertmanager.prometheus.svc # AlertManager's hostname
+alertmanager_scheme: http # AlertManager's protocol scheme
+alertmanager_port: 80 # AlertManager's port
+known_services:
+  - "service1"
+  - "service2"
