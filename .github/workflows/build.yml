@@ -1,0 +1,34 @@
+name: Build and deploy
+on:
+  push:
+    tags:
+     - '*'
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Publish to Registry
+      id: publish_to_registry
+      uses: elgohr/Publish-Docker-Github-Action@master
+      with:
+        name: dreitier/silencer
+        username: ${{ secrets.DOCKER_HUB_USERNAME }}
+        password: ${{ secrets.DOCKER_HUB_TOKEN }}
+        tag_names: true
+
+    - name: Extract binary image from previously build docker image
+      id: extract
+      uses: shrink/actions-docker-extract@v1
+      with:
+        image: 'dreitier/silencer:${{ steps.publish_to_registry.outputs.tag }}'
+        path: '/app/silencer'
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v1
+      with:
+        name: silencer
+        path: ${{ steps.extract.outputs.destination }}

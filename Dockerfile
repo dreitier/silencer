@@ -1,23 +1,20 @@
-FROM golang:alpine AS build-env
-RUN apk --no-cache add build-base git dep openssh-client
+# syntax=docker/dockerfile:1
 
-COPY .  ${GOPATH}/src/silencer
-RUN cd ${GOPATH}/src/silencer \
-    && dep ensure -v \
-    && CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o silencer \
-    && strip silencer
+# builder image
+FROM golang:1.18 AS builder
+WORKDIR /build
+COPY . ./
+RUN make
 
-
-# Alpine doesn't work, archives aren't created. Probably due to musl libc
-FROM fedora:31
-WORKDIR /usr/local/bin
+# target image
+FROM alpine:latest
+RUN apk --no-cache add ca-certificates
+WORKDIR /app
+COPY --from=builder /build/silencer .
 
 RUN mkdir /etc/silencer \
     && echo "---"  > /etc/silencer/config.yaml \
-    && useradd -u 1000 silencer
+    && adduser -D -u 1000 silencer
 
 USER silencer
-
-COPY --from=build-env /go/src/silencer/silencer .
-
-ENTRYPOINT ["/usr/local/bin/silencer"]
+ENTRYPOINT ["/app/silencer"]
