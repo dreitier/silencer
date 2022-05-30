@@ -2,8 +2,8 @@ package main
 
 import (
 	log "github.com/sirupsen/logrus"
-	"silencer/config"
-	"silencer/web"
+	"github.com/dreitier/silencer/config"
+	"github.com/dreitier/silencer/web"
 )
 
 func main() {

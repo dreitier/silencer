@@ -7,7 +7,7 @@ import (
 	"github.com/prometheus/alertmanager/api/v2/client/silence"
 	"github.com/prometheus/alertmanager/api/v2/models"
 	log "github.com/sirupsen/logrus"
-	"silencer/transport"
+	"github.com/dreitier/silencer/transport"
 	"time"
 )
 

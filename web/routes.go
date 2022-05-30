@@ -7,8 +7,8 @@ import (
 	log "github.com/sirupsen/logrus"
 	"net/http"
 	"net/url"
-	"silencer/silence"
-	"silencer/config"
+	"github.com/dreitier/silencer/silence"
+	"github.com/dreitier/silencer/config"
 	"strconv"
 	"time"
 )

@@ -3,7 +3,7 @@ package transport
 import (
 	"fmt"
 	"github.com/go-openapi/runtime/client"
-	"silencer/config"
+	"github.com/dreitier/silencer/config"
 )
 
 func GetTransportClient() *client.Runtime {
