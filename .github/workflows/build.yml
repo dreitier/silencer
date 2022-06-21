@@ -1,8 +1,9 @@
-name: Build and deploy
+name: Build
 on:
   push:
-    tags:
-     - '*'
+    branches:
+     - 'main'
+     - 'cicd'
 
 jobs:
   build:
@@ -11,24 +12,12 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Publish to Registry
-      id: publish_to_registry
-      uses: elgohr/Publish-Docker-Github-Action@master
-      with:
-        name: dreitier/silencer
-        username: ${{ secrets.DOCKER_HUB_USERNAME }}
-        password: ${{ secrets.DOCKER_HUB_TOKEN }}
-        tag_names: true
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
 
-    - name: Extract binary image from previously build docker image
-      id: extract
-      uses: shrink/actions-docker-extract@v1
+    - name: Build application in Docker builder stage
+      uses: docker/build-push-action@v3
       with:
-        image: 'dreitier/silencer:${{ steps.publish_to_registry.outputs.tag }}'
-        path: '/app/silencer'
-
-    - name: Upload artifact
-      uses: actions/upload-artifact@v1
-      with:
-        name: silencer
-        path: ${{ steps.extract.outputs.destination }}
+        context: .
+        push: false
+        target: builder
