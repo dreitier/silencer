@@ -2,7 +2,7 @@ package alert
 
 import (
 	"github.com/prometheus/alertmanager/api/v2/client/alert"
-	"silencer/transport"
+	"github.com/dreitier/silencer/transport"
 )
 
 func GetAlerts() (*alert.GetAlertsOK, error) {
