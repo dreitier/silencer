@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.1] - 2022-07-06
+- Version (Git tag) and Git Commit is shown during startup
+
 ## [1.1.0] - 2022-06-21
 ### Added
 - YAML parameter `known_services` has been added to restrict services. By default, no service restriction is applied.
