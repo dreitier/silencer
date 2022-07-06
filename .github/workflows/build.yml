@@ -1,4 +1,4 @@
-name: Build binary
+name: Build
 on:
   push:
     branches:
@@ -7,60 +7,27 @@ on:
 
 jobs:
   build:
-    name: Build binary
+    name: Build
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
 
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-    - name: Publish to Registry
-      id: publish_to_registry
-      uses: elgohr/Publish-Docker-Github-Action@master
-      with:
-        name: dreitier/silencer
-        username: ${{ secrets.DOCKER_HUB_USERNAME }}
-        password: ${{ secrets.DOCKER_HUB_TOKEN }}
-        tag_names: true
-=======
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v2
->>>>>>> main
-
-    - name: Build application in Docker builder stage
-      uses: docker/build-push-action@v3
-      with:
-<<<<<<< HEAD
-        image: 'dreitier/silencer:${{ steps.publish_to_registry.outputs.tag }}'
-        path: '/app/silencer'
-=======
     - name: Get Git informatioon
       id: git_info
       shell: bash
       run: |
-        echo ::set-output name=GIT_TAG::${GITHUB_REF#refs/tags/}
+        echo ::set-output name=GIT_TAG::${GITHUB_REF#refs/*/}
         echo ::set-output name=GIT_COMMIT::$(git rev-parse --short HEAD)
 
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v2
->>>>>>> Stashed changes
 
-    - name: Upload artifact
-      uses: actions/upload-artifact@v1
+    - name: Build application in Docker builder stage
+      uses: docker/build-push-action@v3
       with:
-<<<<<<< Updated upstream
-        name: silencer
-        path: ${{ steps.extract.outputs.destination }}
-=======
         context: .
         push: false
         target: builder
         build-args: |
-          "GIT_COMMIT=${{ steps.vars.outputs.GIT_COMMIT }}"
-          "GIT_TAG=${{ steps.vars.outputs.GIT_TAG }}"
->>>>>>> Stashed changes
-=======
-        context: .
-        push: false
-        target: builder
->>>>>>> main
+          "GIT_COMMIT=${{ steps.git_info.outputs.GIT_COMMIT }}"
+          "GIT_TAG=${{ steps.git_info.outputs.GIT_TAG }}"
