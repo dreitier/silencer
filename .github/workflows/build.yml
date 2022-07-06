@@ -1,16 +1,18 @@
-name: Build and deploy
+name: Build binary
 on:
   push:
-    tags:
-     - '*'
+    branches:
+     - 'main'
+     - 'cicd'
 
 jobs:
   build:
-    name: Build
+    name: Build binary
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
 
+<<<<<<< HEAD
 <<<<<<< Updated upstream
     - name: Publish to Registry
       id: publish_to_registry
@@ -20,11 +22,15 @@ jobs:
         username: ${{ secrets.DOCKER_HUB_USERNAME }}
         password: ${{ secrets.DOCKER_HUB_TOKEN }}
         tag_names: true
+=======
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+>>>>>>> main
 
-    - name: Extract binary image from previously build docker image
-      id: extract
-      uses: shrink/actions-docker-extract@v1
+    - name: Build application in Docker builder stage
+      uses: docker/build-push-action@v3
       with:
+<<<<<<< HEAD
         image: 'dreitier/silencer:${{ steps.publish_to_registry.outputs.tag }}'
         path: '/app/silencer'
 =======
@@ -53,3 +59,8 @@ jobs:
           "GIT_COMMIT=${{ steps.vars.outputs.GIT_COMMIT }}"
           "GIT_TAG=${{ steps.vars.outputs.GIT_TAG }}"
 >>>>>>> Stashed changes
+=======
+        context: .
+        push: false
+        target: builder
+>>>>>>> main
