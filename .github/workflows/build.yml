@@ -11,6 +11,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+<<<<<<< Updated upstream
     - name: Publish to Registry
       id: publish_to_registry
       uses: elgohr/Publish-Docker-Github-Action@master
@@ -26,9 +27,29 @@ jobs:
       with:
         image: 'dreitier/silencer:${{ steps.publish_to_registry.outputs.tag }}'
         path: '/app/silencer'
+=======
+    - name: Get Git informatioon
+      id: git_info
+      shell: bash
+      run: |
+        echo ::set-output name=GIT_TAG::${GITHUB_REF#refs/tags/}
+        echo ::set-output name=GIT_COMMIT::$(git rev-parse --short HEAD)
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+>>>>>>> Stashed changes
 
     - name: Upload artifact
       uses: actions/upload-artifact@v1
       with:
+<<<<<<< Updated upstream
         name: silencer
         path: ${{ steps.extract.outputs.destination }}
+=======
+        context: .
+        push: false
+        target: builder
+        build-args: |
+          "GIT_COMMIT=${{ steps.vars.outputs.GIT_COMMIT }}"
+          "GIT_TAG=${{ steps.vars.outputs.GIT_TAG }}"
+>>>>>>> Stashed changes

@@ -2,6 +2,11 @@
 
 # builder image
 FROM golang:1.18 AS builder
+
+# if available, inject build args from GitHub Actions so that we have the current commit and tag
+ARG GIT_COMMIT
+ARG GIT_TAG
+
 WORKDIR /build
 COPY . ./
 RUN make
