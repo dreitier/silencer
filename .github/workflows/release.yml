@@ -20,7 +20,7 @@ jobs:
 
     - name: Publish to Registry
       id: publish_to_registry
-      uses: elgohr/Publish-Docker-Github-Action@master
+      uses: elgohr/Publish-Docker-Github-Action@v5
       env:
         GIT_COMMIT: ${{ steps.git_info.outputs.GIT_COMMIT }}
         GIT_TAG: ${{ steps.git_info.outputs.GIT_TAG }}
